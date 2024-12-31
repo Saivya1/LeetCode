@@ -50,5 +50,7 @@ public:
 
             res = max(res, end - start + 1);
         }
+
+        return res;
     }
 };
