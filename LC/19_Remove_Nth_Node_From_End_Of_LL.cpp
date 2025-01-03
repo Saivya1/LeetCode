@@ -32,44 +32,40 @@ using namespace std;
  * };
  */
 
-class Solution
-{
+
+class Solution {
 public:
-    ListNode *removeNthFromEnd(ListNode *head, int n)
-    {
-        ListNode *tail = head;
-        ListNode *temp = head;
-        int num_nodes = 1;
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
 
-        while (tail->next != nullptr)
-        {
-            num_nodes++;
-            tail = tail->next;
+        if (!head) return head;
+        ListNode* curr = head;
+        int ctr = 0;
+
+        while (curr) {
+            curr = curr->next;
+            ctr++;
         }
 
-        int dist_from_start = num_nodes - n;
+        int offset = ctr - n;
 
-        if (dist_from_start == 0)
-        {
-            ListNode *new_head = head->next;
-            delete head;
-            return new_head;
+        if (offset == 0) {
+            return head->next;
         }
 
-        while (dist_from_start > 1)
-        {
-            temp = temp->next;
+        curr = head;
 
-            dist_from_start--;
+        for (int i = 0; i < offset-1; i++) {
+            curr = curr->next;
         }
 
-        ListNode *next_node = temp->next;
-        temp->next = next_node->next;
-        delete next_node;
+        ListNode* temp = curr->next->next;
+        delete curr->next;
+        curr->next = temp;
 
         return head;
     }
 };
+
 
 int main()
 {
