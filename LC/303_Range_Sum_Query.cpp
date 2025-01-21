@@ -30,25 +30,18 @@ numArray.sumRange(0, 5); // return (-2) + 0 + 3 + (-5) + 2 + (-1) = -3
 using namespace std;
 
 class NumArray {
-    
 private:
     vector<int> prefixSum;
 
 public:
-    
     NumArray(vector<int>& nums) {
-        for(int i = 0; i < nums.size(); i++){
-            prefixSum.push_back(nums[i]+nums[i-1]);
+        prefixSum.push_back(0); // Initialize with 0 to handle sums starting from index 0
+        for (int num : nums) {
+            prefixSum.push_back(prefixSum.back() + num);
         }
     }
     
     int sumRange(int left, int right) {
-        return prefixSum[right]-prefixSum[left-1];
+        return prefixSum[right + 1] - prefixSum[left];
     }
 };
-
-/**
- * Your NumArray object will be instantiated and called as such:
- * NumArray* obj = new NumArray(nums);
- * int param_1 = obj->sumRange(left,right);
- */
