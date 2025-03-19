@@ -2,7 +2,7 @@
 height-balanced
 .
 
- 
+
 
 Example 1:
 
@@ -36,26 +36,34 @@ using namespace std;
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
-    bool isBalanced(TreeNode* root) {
-        return dfs(root) != -1;
+    bool balanced = true;
+    bool isBalanced(TreeNode *root)
+    {
+        dfs(root);
+        return balanced;
     }
 
 private:
-    int dfs(TreeNode* root) {
-        if (!root) return 0;
+    int dfs(TreeNode *root)
+    {
+        if (!root)
+        {
+            return -1;
+        }
 
-        int l = dfs(root->left);
-        if (l == -1) return -1;
+        int x = dfs(root->left);
+        int y = dfs(root->right);
 
-        int r = dfs(root->right);
-        if (r == -1) return -1;
+        if (abs(x - y) > 1)
+        {
+            balanced = false;
+            return -1;
+        }
 
-        if (abs(l - r) > 1) return -1;
-
-        return 1 + max(l, r);
+        return max(x, y) + 1;
     }
 };
-
-
+;
