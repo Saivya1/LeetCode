@@ -26,22 +26,22 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> subarraySum(vector<int>& nums, int k) {
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int> um;
+        int prefixSum = 0, ans = 0;
 
-        vector<int> ans;
-        int sum=0;
-        int ctr=0;
-        for(int i=0 ; i<nums.size(); i++){
-            sum=nums[i];
-            ctr += (nums[i] == k) ? 1 : 0;
-            for(int j=i+1 ; j<nums.size();j++){
-                sum += nums[j];
-                if(sum==k){
-                    ctr++;
-                } 
+        um[0] = 1; // To handle cases where prefixSum equals `k`
+
+        for (int num : nums) {
+            prefixSum += num;
+
+            if (um.find(prefixSum - k) != um.end()) {
+                ans += um[prefixSum - k];
             }
+
+            um[prefixSum]++;
         }
-        ans.push_back(ctr);
+
         return ans;
     }
 };
