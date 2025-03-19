@@ -56,6 +56,7 @@ public:
                 if (freqs1.find(s2[i]) != freqs1.end())
                 {
                     ctr++;
+                    freqs1[s2[i]]--;
                 }
             }
         }
