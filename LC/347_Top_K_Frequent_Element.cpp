@@ -1,6 +1,6 @@
 /* Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
 
- 
+
 
 Example 1:
 
@@ -10,55 +10,61 @@ Example 2:
 
 Input: nums = [1], k = 1
 Output: [1]
-  */  
+  */
 
- #include <iostream>
+#include <iostream>
 #include <vector>
-#include <map>
+#include <unordered_map>
+#include <queue>
 
 using namespace std;
 
-class Solution {
+class Solution
+{
 public:
-    vector<int> topKFrequent(vector<int>& nums, int k) {
-        map<int, int> mp;
-        
-        for (int num : nums) {
-            mp[num]++;
+    vector<int> topKFrequent(vector<int> &nums, int k)
+    {
+        unordered_map<int, int> freqMap;
+
+        // Count frequency of each element
+        for (int num : nums)
+        {
+            freqMap[num]++;
         }
-        
-        vector<int> result;
-        
-        while (k > 0) {
-            int maxFreq = -1;
-            int maxNum = 0;
-            
-            for (auto entry : mp) {
-                if (entry.second > maxFreq) {
-                    maxFreq = entry.second;
-                    maxNum = entry.first;
-                }
+
+        // Min-heap to keep top k elements
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
+
+        for (auto ele : freqMap)
+        {
+            minHeap.push({ele.second, ele.first});
+            if (minHeap.size() > k)
+            {
+                minHeap.pop();
             }
-            
-            result.push_back(maxNum);
-            
-            mp.erase(maxNum);
-            
-            k--;
         }
-        
+
+        vector<int> result;
+        while (!minHeap.empty())
+        {
+            result.push_back(minHeap.top().second);
+            minHeap.pop();
+        }
+
         return result;
     }
 };
 
-int main() {
+int main()
+{
     vector<int> nums = {1, 1, 1, 2, 2, 3};
     int k = 2;
 
     Solution s;
     vector<int> result = s.topKFrequent(nums, k);
 
-    for (int num : result) {
+    for (int num : result)
+    {
         cout << num << " ";
     }
     cout << endl;
