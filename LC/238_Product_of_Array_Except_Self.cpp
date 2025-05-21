@@ -4,10 +4,10 @@ The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit int
 
 You must write an algorithm that runs in O(n) time and without using the division operation.
 
- 
+
 
 Example 1:
-               0 1 2 3 
+               0 1 2 3
 Input: nums = [1,2,3,4]
 Output: [24,12,8,6]
 Example 2:
@@ -16,13 +16,15 @@ Input: nums = [-1,1,0,-3,3]
 Output: [0,0,9,0,0] */
 
 #include <iostream>
-#include <vector> 
+#include <vector>
 using namespace std;
 
-class Solution {
+class Solution
+{
 public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        
+    vector<int> productExceptSelf(vector<int> &nums)
+    {
+
         /* Inefficient
         int pro=1;
         int temp;
@@ -32,47 +34,49 @@ public:
             for(int i = 0; i<nums.size() ; i++){
                 pro *= nums[i];
             }
-        
+
             nums[j]=temp;
             ans.push_back(pro);
             pro=1;
         }
-        
+
         return ans; */
 
-        
         int n = nums.size();
-        vector<int> ans(n, 1);
-        int left_product = 1;
-        int right_product = 1;
+        vector<int> left(n, 1);
+        vector<int> right(n, 1);
+        vector<int> ans(n);
 
-        // Calculate left product for each element except itself
-        for (int i = 0; i < n; ++i) {
-            ans[i] = left_product;
-            left_product *= nums[i];
+        for (int i = 1; i < n; ++i)
+        {
+            left[i] = left[i - 1] * nums[i - 1];
         }
 
-        // Calculate right product for each element except itself and multiply
-        for (int i = n - 1; i >= 0; --i) {
-            ans[i] *= right_product;
-            right_product *= nums[i];
+        for (int i = n - 2; i >= 0; --i)
+        {
+            right[i] = right[i + 1] * nums[i + 1];
+        }
+
+        for (int i = 0; i < n; ++i)
+        {
+            ans[i] = left[i] * right[i];
         }
 
         return ans;
     }
 };
 
-
-int main(){
-    vector<int> nums{1,2,3,4};
+int main()
+{
+    vector<int> nums{1, 2, 3, 4};
     vector<int> ans;
 
     Solution s;
 
     ans = s.productExceptSelf(nums);
 
-    for ( int x : ans){
+    for (int x : ans)
+    {
         cout << x << endl;
-    }    
-
+    }
 }
