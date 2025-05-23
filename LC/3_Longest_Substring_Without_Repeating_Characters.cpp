@@ -25,7 +25,7 @@ Notice that the answer must be a substring, "pwke" is a subsequence and not a su
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -34,32 +34,23 @@ class Solution
 public:
     int lengthOfLongestSubstring(string s)
     {
-        unordered_map<char, int> um;
-        int ctr = 0;
-        int max_ctr = 0;
-        int copy;
-        int j = 0;
+        int left = 0;
+        int maxLength = 0;
+        unordered_set<char> charSet;
 
-        for (int i = 0; i < s.size(); i++)
+        for (int right = 0; right < s.length(); right++)
         {
-
-            if (um[s[i]] == 0)
+            while (charSet.find(s[right]) != charSet.end())
             {
+                charSet.erase(s[left]);
+                left++;
+            }
 
-                um[s[i]]++;
-                ctr++;
-                max_ctr = max(ctr, max_ctr);
-            }
-            else
-            {
-                j++;
-                ctr = 0;
-                um.clear();
-                i = j - 1;
-            }
+            charSet.insert(s[right]);
+            maxLength = max(maxLength, right - left + 1);
         }
 
-        return max_ctr;
+        return maxLength;
     }
 };
 
