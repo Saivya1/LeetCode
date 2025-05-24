@@ -20,11 +20,7 @@ Output: false
 
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-
+#include <string>
 using namespace std;
 
 class Solution
@@ -32,33 +28,30 @@ class Solution
 public:
     bool checkInclusion(string s1, string s2)
     {
-        int size_s1 = s1.size();
-        int size_s2 = s2.size();
-
-        if (size_s1 > size_s2)
-        {
+        int len1 = s1.size(), len2 = s2.size();
+        if (len1 > len2)
             return false;
-        }
 
-        unordered_map<char, int> freqs1;
+        vector<int> freq1(26, 0), freq2(26, 0);
 
-        for (char c : s1)
+        for (int i = 0; i < len1; i++)
         {
-            freqs1[c]++;
+            freq1[s1[i] - 'a']++;
+            freq2[s2[i] - 'a']++;
         }
 
-        int ctr = 0;
+        if (freq1 == freq2)
+            return true;
 
-        for (int i = 0; i < size_s2; i++)
+        for (int i = len1; i < len2; i++)
         {
-            for (int j = 0; j < size_s1; j++)
-            {
-                if (freqs1.find(s2[i]) != freqs1.end())
-                {
-                    ctr++;
-                    freqs1[s2[i]]--;
-                }
-            }
+            freq2[s2[i] - 'a']++;
+            freq2[s2[i - len1] - 'a']--;
+
+            if (freq1 == freq2)
+                return true;
         }
+
+        return false;
     }
 };

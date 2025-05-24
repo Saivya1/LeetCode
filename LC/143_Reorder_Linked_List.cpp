@@ -8,7 +8,7 @@ L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
 
 You may not modify the values in the list's nodes. Only nodes themselves may be changed.
 
- 
+
 
 Example 1:
 
@@ -31,28 +31,36 @@ Output: [1,5,2,4,3]
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution {
+#include <iostream>
+#include <vector>
+#include "LinkedList.h"
+class Solution
+{
 public:
-    void reorderList(ListNode* head) {
+    void reorderList(ListNode *head)
+    {
 
-        if (!head || !head->next || !head->next->next) return; // Base case for small lists
-        
+        if (!head || !head->next || !head->next->next)
+            return; // Base case for small lists
+
         // Step 1: Find the middle of the list
-        ListNode* slow = head;
-        ListNode* fast = head;
+        ListNode *slow = head;
+        ListNode *fast = head;
 
-        while (fast && fast->next) {
+        while (fast && fast->next)
+        {
             slow = slow->next;
             fast = fast->next->next;
         }
 
         // Step 2: Reverse the second half of the list
-        ListNode* head2 = slow->next;
+        ListNode *head2 = slow->next;
         slow->next = nullptr; // Break the list into two halves
-        ListNode* prev = nullptr;
-        ListNode* temp;
+        ListNode *prev = nullptr;
+        ListNode *temp;
 
-        while (head2) {
+        while (head2)
+        {
             temp = head2->next;
             head2->next = prev;
             prev = head2;
@@ -60,14 +68,15 @@ public:
         }
 
         // Step 3: Merge the two halves
-        ListNode* l1 = head;
-        ListNode* l2 = prev; // `prev` is the head of the reversed second half
+        ListNode *l1 = head;
+        ListNode *l2 = prev; // `prev` is the head of the reversed second half
 
-        while (l2) {
-            temp = l1->next;  // Save the next node in the first half
-            l1->next = l2;    // Link the current node to the head of the second half
-            l1 = l2;          // Move to the next node in the second half
-            l2 = temp;        // Update `l2` to point to the saved node
+        while (l2)
+        {
+            temp = l1->next; // Save the next node in the first half
+            l1->next = l2;   // Link the current node to the head of the second half
+            l1 = l2;         // Move to the next node in the second half
+            l2 = temp;       // Update `l2` to point to the saved node
         }
     }
 };
