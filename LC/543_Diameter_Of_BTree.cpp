@@ -4,7 +4,7 @@ The diameter of a binary tree is the length of the longest path between any two 
 
 The length of a path between two nodes is represented by the number of edges between them.
 
- 
+
 
 Example 1:
 
@@ -20,6 +20,7 @@ Output: 1
 
 #include <iostream>
 #include <algorithm>
+#include "BinaryTree.h"
 
 using namespace std;
 
@@ -34,24 +35,29 @@ using namespace std;
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
     int res;
-    int diameterOfBinaryTree(TreeNode* root) {
+    int diameterOfBinaryTree(TreeNode *root)
+    {
         dfs(root);
         return res;
     }
+
 private:
-    int dfs(TreeNode* root){
-        if(!root){
+    int dfs(TreeNode *root)
+    {
+        if (!root)
+        {
             return 0;
         }
 
         int l = dfs(root->left);
         int r = dfs(root->right);
 
-        res = max(res,l+r);
+        res = max(res, l + r);
 
-        return 1+max(l,r);
+        return 1 + max(l, r);
     }
 };
