@@ -1,6 +1,6 @@
 /*Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
 
- 
+
 
 Example 1:
 
@@ -21,6 +21,7 @@ Output: []
 #include <iostream>
 #include <vector>
 #include <queue>
+#include "BinaryTree.h"
 
 using namespace std;
 
@@ -35,26 +36,33 @@ using namespace std;
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>> levelOrder(TreeNode *root)
+    {
         vector<vector<int>> ans;
-        if(!root) return ans;
+        if (!root)
+            return ans;
 
-        queue<TreeNode*> q;
+        queue<TreeNode *> q;
         q.push(root);
 
-        while(!q.empty()){
+        while (!q.empty())
+        {
             int l = q.size();
             vector<int> v;
 
-            for(int i = 0;i<l;i++){
-                TreeNode* node = q.front();
+            for (int i = 0; i < l; i++)
+            {
+                TreeNode *node = q.front();
                 v.push_back(node->val);
                 q.pop();
 
-                if(node->left) q.push(node->left);
-                if(node->right) q.push(node->right);
+                if (node->left)
+                    q.push(node->left);
+                if (node->right)
+                    q.push(node->right);
             }
 
             ans.push_back(v);
