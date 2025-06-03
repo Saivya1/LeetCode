@@ -17,10 +17,12 @@ Explanation: "leeto" did not occur in "leetcode", so we return -1. */
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 class Solution
 {
 public:
-    int strStr(std::string haystack, std::string needle)
+    int strStr(string haystack, string needle)
     {
         if (needle.empty())
         {
@@ -30,7 +32,7 @@ public:
         int n = haystack.length();
         int m = needle.length();
 
-        for (int i = 0; i <= n - m; ++i)
+        for (int i = 0; i <= n - m; i++)
         {
             if (haystack.substr(i, m) == needle)
             {
