@@ -43,6 +43,7 @@ public:
                 dp[j] = min(dp[j], 1 + dp[j - coins[i]]);
             }
         }
+
         return dp[amount] == INT_MAX ? -1 : dp[amount];
     }
 };
