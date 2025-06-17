@@ -23,62 +23,51 @@ To take course 1 you should have finished course 0, and to take course 0 you sho
 
 using namespace std;
 
-#include <vector>
-using namespace std;
-
 class Solution
 {
 public:
     bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
     {
-        vector<vector<int>> adjList(numCourses);
-        vector<bool> visited(numCourses, false);
-        vector<bool> recStack(numCourses, false); // Recursion stack to detect cycles
-
-        for (const auto &it : prerequisites)
+        vector<vector<int>> adj(numCourses);
+        for (auto &pre : prerequisites)
         {
-            adjList[it[0]].push_back(it[1]);
+            adj[pre[0]].push_back(pre[1]);
         }
 
-        for (int i = 0; i < numCourses; ++i)
+        vector<bool> visited(numCourses, false);
+        vector<bool> onPath(numCourses, false); // recursion stack
+
+        for (int i = 0; i < numCourses; i++)
         {
             if (!visited[i])
             {
-                if (dfsUtil(i, adjList, visited, recStack))
-                {
-                    return false; // Cycle detected
-                }
+                if (hasCycle(i, adj, visited, onPath))
+                    return false; // cycle detected
             }
         }
         return true;
     }
 
 private:
-    bool dfsUtil(int node, const vector<vector<int>> &adjList, vector<bool> &visited, vector<bool> &recStack)
+    bool hasCycle(int node, vector<vector<int>> &adj, vector<bool> &visited, vector<bool> &onPath)
     {
         visited[node] = true;
-        recStack[node] = true;
+        onPath[node] = true;
 
-        for (int neighbor : adjList[node])
+        for (int neighbor : adj[node])
         {
             if (!visited[neighbor])
             {
-                if (dfsUtil(neighbor, adjList, visited, recStack))
-                {
-                    return true; // Cycle detected
-                }
+                if (hasCycle(neighbor, adj, visited, onPath))
+                    return true;
             }
-            else if (recStack[neighbor])
+            else if (onPath[neighbor])
             {
-                return true; // Cycle detected
+                return true; // cycle found
             }
         }
 
-        recStack[node] = false;
+        onPath[node] = false; // backtrack
         return false;
     }
 };
-
-int main()
-{
-}
