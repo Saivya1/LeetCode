@@ -1,3 +1,30 @@
+/* Number of Connected Components in an Undirected Graph
+
+There is an undirected graph with n nodes. There is also an edges array, where edges[i] = [a, b] means that there is an edge between node a and node b in the graph.
+
+The nodes are numbered from 0 to n - 1.
+
+Return the total number of connected components in that graph.
+
+Example 1:
+
+Input:
+n=3
+edges=[[0,1], [0,2]]
+
+Output:
+1
+
+Example 2:
+
+Input:
+n=6
+edges=[[0,1], [1,2], [2,3], [4,5]]
+
+Output:
+2
+*/
+
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -5,73 +32,41 @@
 
 using namespace std;
 
-class Graph
+class Solution
 {
-    unordered_map<int, unordered_set<int>> adjList;
-    int n;
-    vector<bool> visited;
-    int ctr;
-
 public:
-    Graph(int nodes, unordered_map<int, unordered_set<int>> edges)
+    int countComponents(int n, vector<vector<int>> &edges)
     {
-        n = nodes;
-        adjList = edges;
-        visited.resize(n, false);
-        ctr = 0;
-    }
-
-    int CountConnected()
-    {
-        for (auto &it : adjList)
+        vector<vector<int>> adj(n);
+        vector<bool> visit(n, false);
+        for (const auto &edge : edges)
         {
-            if (!visited[it.first])
-            {
-                dfsUtil(it.first);
-                ctr++;
-            }
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
         }
 
-        // Handle isolated nodes
-        for (int i = 0; i < n; ++i)
+        int res = 0;
+        for (int node = 0; node < n; ++node)
         {
-            if (!visited[i])
+            if (!visit[node])
             {
-                ctr++;
+                dfs(adj, visit, node);
+                res++;
             }
         }
-
-        return ctr;
+        return res;
     }
 
 private:
-    void dfsUtil(int src)
+    void dfs(const vector<vector<int>> &adj, vector<bool> &visit, int node)
     {
-        visited[src] = true;
-
-        for (int neighbour : adjList[src])
+        visit[node] = true;
+        for (int nei : adj[node])
         {
-            if (!visited[neighbour])
+            if (!visit[nei])
             {
-                dfsUtil(neighbour);
+                dfs(adj, visit, nei);
             }
         }
     }
 };
-
-// Example usage
-int main()
-{
-    unordered_map<int, unordered_set<int>> edges = {
-        {0, {1, 2}},
-        {1, {0, 3}},
-        {2, {0}},
-        {3, {1}},
-        {4, {5}},
-        {5, {4}},
-
-    };
-
-    Graph graph(8, edges);
-    cout << graph.CountConnected();
-}

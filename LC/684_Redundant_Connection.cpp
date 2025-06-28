@@ -35,7 +35,7 @@ public:
         return parent[x];
     }
 
-    bool unite(int x, int y)
+    bool merge(int x, int y)
     {
         int rootX = find(x), rootY = find(y);
         if (rootX == rootY)
@@ -57,7 +57,7 @@ public:
 
         for (auto &edge : edges)
         {
-            if (!unite(edge[0], edge[1]))
+            if (!merge(edge[0], edge[1]))
                 return edge; // This edge creates a cycle
         }
         return {};
