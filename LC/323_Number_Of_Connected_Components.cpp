@@ -46,7 +46,7 @@ public:
         }
 
         int res = 0;
-        for (int node = 0; node < n; ++node)
+        for (int node = 0; node < n; node++)
         {
             if (!visit[node])
             {

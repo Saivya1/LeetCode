@@ -45,6 +45,7 @@ public:
 
         // Push all initially rotten oranges and count fresh ones
         for (int i = 0; i < m; i++)
+        {
             for (int j = 0; j < n; j++)
             {
                 if (grid[i][j] == 2)
@@ -52,7 +53,7 @@ public:
                 if (grid[i][j] == 1)
                     fresh++;
             }
-
+        }
         if (fresh == 0)
             return 0; // No fresh oranges
         if (q.empty())
