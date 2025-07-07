@@ -38,6 +38,8 @@ There are only two types of tasks, A and B, which need to be separated by 3 inte
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 
@@ -46,5 +48,24 @@ class Solution
 public:
     int leastInterval(vector<char> &tasks, int n)
     {
+        unordered_map<char, int> um;
+        int count = 0;
+
+        for (char c : tasks)
+        {
+            um[c]++;
+            count = max(count, um[c]);
+        }
+
+        int ans = (count - 1) * (n + 1);
+        for (auto e : um)
+        {
+            if (e.second == count)
+            {
+                ans++;
+            }
+        }
+
+        return max(ans, int(tasks.size()));
     }
 };
