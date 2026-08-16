@@ -42,7 +42,6 @@ private:
             }
         }
 
-        recStack[node] = false; // backtrack
-        return false;
+        recStack[node] = false; // backtrack return false;
     }
 };
