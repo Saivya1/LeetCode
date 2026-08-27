@@ -4,7 +4,6 @@ from collections import deque
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
         color = [-1] * len(graph)
-        queue = deque()
 
         def dfs(node, curr_col):
             color[node] = curr_col
