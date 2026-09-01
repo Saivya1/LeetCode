@@ -1,25 +1,23 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
-        n = len(graph)
-        state = [0] * n
-        res = []
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
 
-        def dfs(node):
-            if state[node] == 1:
-                return False
-            if state[node] == 2:
+        def checkRange(root, low, high):
+            if root is None:
                 return True
+            if root.val <= low:
+                return False
+            if root.val >= high:
+                return False
 
-            state[node] = 1
-            for neigh in graph[node]:
-                if not dfs(neigh):
-                    return False
+            left = checkRange(root.left, low, root.val)
+            right = checkRange(root.right, root.val, high)
 
-            state[node] = 2
-            return True
+            return left and right
 
-        for i in range(n):
-            if dfs(i):
-                res.append(i)
-
-        return res
+        return checkRange(root, float("-inf"), float("inf"))
